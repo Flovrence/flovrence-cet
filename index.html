@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f5f5f7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>四六级 口语·听力 练习</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%230a84ff'/%3E%3Cstop offset='1' stop-color='%235e5ce6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='url(%23g)'/%3E%3Ctext x='50' y='66' font-size='46' text-anchor='middle' fill='white' font-family='Arial'%3ECET%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css?v=20261022c4">
+</head>
+<body>
+
+<!-- ==================== 登录页 ==================== -->
+<section id="view-login" class="view active">
+  <div class="login-wrap">
+    <div class="login-hero">
+      <div class="hero-logo">
+        <svg viewBox="0 0 64 64" width="56" height="56"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a84ff"/><stop offset="1" stop-color="#5e5ce6"/></linearGradient></defs><rect width="64" height="64" rx="15" fill="url(#hg)"/><text x="32" y="43" font-size="28" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-weight="bold">CET</text></svg>
+      </div>
+      <h1>四六级 口语<span class="gradient-text">·</span>听力练习</h1>
+      <p class="hero-sub">真题全真模拟 · AI智能考官 · 即时口语对话<br>考试日期倒计时 · 四级/六级一键切换</p>
+      <div class="hero-tags">
+        <span>🎙 真题模拟面试</span><span>🏆 AI 打分</span><span>📅 考试倒计时</span><span>📱 电脑手机通用</span>
+      </div>
+    </div>
+    <div class="login-card">
+      <div class="login-tabs" id="login-tabs">
+        <button class="login-tab on" data-mode="login">登录</button>
+        <button class="login-tab" data-mode="register">注册</button>
+      </div>
+      <h2 id="login-title">欢迎回来</h2>
+      <p class="login-sub" id="login-sub">登录后管理你的练习记录与考试倒计时</p>
+      <form id="login-form" autocomplete="off">
+        <label class="field-label" for="login-username">用户名</label>
+        <input class="field" id="login-username" placeholder="字母或中文，2-16 位" autocomplete="username">
+        <label class="field-label" for="login-password">密码</label>
+        <input class="field" type="password" id="login-password" placeholder="至少8位，建议字母+数字+符号" autocomplete="current-password">
+        <div class="pw-meter pw-0" id="pw-meter" style="display:none">
+          <div class="pw-bars"><i></i><i></i><i></i><i></i></div>
+          <div class="pw-tip" id="pw-tip"></div>
+        </div>
+        <div class="login-err" id="login-err"></div>
+        <button class="btn btn-primary btn-block" id="login-btn" type="submit">登录</button>
+      </form>
+      <p class="login-note">🔒 账号与数据全部保存在本机浏览器中，不会上传到任何服务器。<br>用户名只能用<strong>字母或中文</strong>；注册时密码至少 8 位，建议设强密码（字母+数字+符号）。<br>每位用户可在“设置”中填入自己的 DeepSeek API Key，享受 AI 考官智能评分。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 应用主体 ==================== -->
+<div id="view-app" class="app-shell">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="nav-back" id="btn-back" title="返回上一级" style="display:none">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M15 5l-7 7 7 7z"/></svg>
+        <span>返回</span>
+      </button>
+      <div class="brand">
+        <svg viewBox="0 0 64 64" width="30" height="30"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a84ff"/><stop offset="1" stop-color="#5e5ce6"/></linearGradient></defs><rect width="64" height="64" rx="15" fill="url(#bg)"/><text x="32" y="43" font-size="28" text-anchor="middle" fill="#fff" font-family="Arial" font-weight="bold">CET</text></svg>
+        <span class="brand-text">口语·听力练习</span>
+      </div>
+      <div class="seg" id="nav-level">
+        <button class="seg-btn" data-level="4">四级 CET-4</button>
+        <button class="seg-btn" data-level="6">六级 CET-6</button>
+      </div>
+      <div class="userbox">
+        <span class="user-name" id="user-name"></span>
+        <button class="btn btn-ghost btn-sm" id="logout-btn">退出</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== 首页 ========== -->
+  <section id="view-home" class="view">
+    <div class="container">
+      <div class="hero-row">
+        <div class="card countdown-card">
+          <div class="card-title">📅 考试倒计时</div>
+          <div class="count-row">
+            <label class="field-label" style="display:inline-block">目标场次：</label>
+            <select class="field field-inline" id="year-select"></select>
+          </div>
+          <div id="countdown-body"></div>
+          <div class="quick-links">
+            <a href="https://cet-bm.neea.edu.cn/" target="_blank" rel="noopener">官方报名入口</a>
+            <a href="https://cet.neea.edu.cn/cet/" target="_blank" rel="noopener">成绩查询</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-title" style="margin:22px 2px 12px">选择练习模式</div>
+      <div class="mode-grid">
+        <button class="mode-card" id="btn-interview-real">
+          <div class="mode-icon">🎙️</div>
+          <div class="mode-name">真题模拟面试</div>
+          <div class="mode-desc">按官方流程与 AI 考官真人对话，历年真题话题，即时打分</div>
+        </button>
+        <button class="mode-card" id="btn-interview-mock">
+          <div class="mode-icon">🧩</div>
+          <div class="mode-name">模拟题练习</div>
+          <div class="mode-desc">AI 考官现场出题的海量仿真练习题，练熟临场反应</div>
+        </button>
+        <button class="mode-card" id="btn-listening">
+          <div class="mode-icon">🎧</div>
+          <div class="mode-name">听力专项练习</div>
+          <div class="mode-desc">真题风格听力套题，听完即答题，自动批改带解析</div>
+        </button>
+        <button class="mode-card" id="btn-history">
+          <div class="mode-icon">📈</div>
+          <div class="mode-name">历史成绩</div>
+          <div class="mode-desc">查看每次模拟的得分、等级与进步轨迹</div>
+        </button>
+        <button class="mode-card" id="btn-settings">
+          <div class="mode-icon">⚙️</div>
+          <div class="mode-name">设置</div>
+          <div class="mode-desc">配置 DeepSeek API Key、语音、深色模式与数据备份</div>
+        </button>
+      </div>
+
+      <div class="card info-card">
+        <div class="card-title">ℹ️ 使用提示</div>
+        <ul class="info-list">
+          <li>🎙 尽量用麦克风大声回答，像跟真人打电话一样；识别不了时可切打字。</li>
+          <li>🤖 未配置 DeepSeek API Key 时，AI 考官会自动使用「本地模式」继续考试，但打分较粗略。</li>
+          <li>🔑 在“设置”中填入你自己的 DeepSeek API Key（约 1-2 元/百万字），即可获得全程智能对话与个性化点评。</li>
+          <li>📱 手机访问：电脑端保持本页面开启，手机连同一 WiFi，用页脚下方提示的局域网地址打开。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 面试间 ========== -->
+  <section id="view-interview" class="view">
+    <div class="interview-wrap">
+      <div class="interview-top">
+        <div class="int-left">
+          <div class="int-part" id="interview-part">准备中…</div>
+          <div class="eng-badge local" id="interview-eng-badge">本地考官</div>
+        </div>
+        <div class="int-right">
+          <div class="timer">
+            <svg viewBox="0 0 100 100" width="54" height="54">
+              <circle class="ring-bg" cx="50" cy="50" r="44"/>
+              <circle class="ring-fg" id="timer-ring-progress" cx="50" cy="50" r="44"/>
+            </svg>
+            <span class="timer-text" id="timer-text">0s</span>
+          </div>
+          <div class="int-phase" id="interview-phase"></div>
+        </div>
+      </div>
+
+      <div class="panel" id="interview-passage-panel" style="display:none"></div>
+      <div class="panel" id="interview-prompt-panel" style="display:none"></div>
+
+      <div class="interview-chat" id="interview-chat"></div>
+
+      <div class="interview-inputbar">
+        <button class="mic-btn" id="interview-mic" title="麦克风">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1a7 7 0 0 0 6-6.9h-2z"/></svg>
+        </button>
+        <input class="field int-input" id="interview-input" placeholder="用麦克风直接说，或在此打字回答（Enter 发送）" autocomplete="off">
+        <button class="btn btn-primary" id="interview-send">发送</button>
+        <button class="btn btn-ghost" id="interview-done">说完了</button>
+        <button class="btn btn-danger" id="interview-stop">结束考试</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 听力 ========== -->
+  <section id="view-listening" class="view">
+    <div class="container">
+      <div class="card-title" style="margin:6px 2px 12px">🎧 听力专项练习</div>
+      <p class="page-sub">原文仿照历年真题编写，由系统语音按考试语速朗读（离线可用，零费用）。</p>
+      <div id="listen-list"></div>
+      <div id="listen-work-area" style="display:none"></div>
+    </div>
+  </section>
+
+  <!-- ========== 历史 ========== -->
+  <section id="view-history" class="view">
+    <div class="container">
+      <div class="card-title" style="margin:6px 2px 12px">📈 我的练习记录</div>
+      <div class="card" id="history-list"></div>
+    </div>
+  </section>
+
+  <!-- ========== 设置 ========== -->
+  <section id="view-settings" class="view">
+    <div class="container">
+      <div class="card-title" style="margin:6px 2px 12px">⚙️ 设置</div>
+      <div class="card">
+        <div class="card-title small">🤖 AI 考官（DeepSeek）</div>
+        <p class="page-sub">每位用户填<b>自己的</b> API Key（在 platform.deepseek.com 注册获取，按量计费、很便宜）。Key 仅保存在本机，只发送给 DeepSeek 官方接口。不配置也能考试（本地模式）。</p>
+        <label class="field-label" for="set-api">DeepSeek API Key</label>
+        <div class="row">
+          <input class="field" id="set-api" type="password" placeholder="sk-..." style="flex:1;min-width:200px">
+          <button class="btn btn-ghost" id="test-api">测试连接</button>
+        </div>
+        <label class="field-label" for="set-model">模型</label>
+        <select class="field" id="set-model">
+          <option value="deepseek-chat">deepseek-chat（推荐，快且便宜）</option>
+          <option value="deepseek-reasoner">deepseek-reasoner（推理更强，更慢）</option>
+        </select>
+
+        <div class="card-title small" style="margin-top:22px">🔊 语音</div>
+        <label class="field-label" for="set-rate">考官语速：<span id="set-rate-val">×1.0</span></label>
+        <input type="range" id="set-rate" min="0.8" max="1.3" step="0.05">
+        <label class="field-label" for="set-voice">考官口音</label>
+        <select class="field" id="set-voice">
+          <option value="en-US">美音（en-US，推荐）</option>
+          <option value="en-GB">英音（en-GB）</option>
+        </select>
+        <div class="switch-row">
+          <span>深色模式</span>
+          <label class="switch"><input type="checkbox" id="set-dark"><span class="slider"></span></label>
+        </div>
+
+        <div class="card-title small" style="margin-top:22px">🖥 当前设备能力检测</div>
+        <div class="cap" id="cap-report"></div>
+
+        <div class="card-title small" style="margin-top:22px">💾 数据</div>
+        <div class="row wrap">
+          <button class="btn btn-ghost" id="export-data">导出备份</button>
+          <button class="btn btn-ghost" id="import-data">导入备份</button>
+          <input type="file" id="import-file" accept="application/json" style="display:none">
+          <button class="btn btn-ghost danger" id="clear-data">清空成绩</button>
+          <button class="btn btn-ghost danger" id="del-account">删除账号</button>
+        </div>
+        <p class="page-sub" style="margin-top:10px">当前账号：<b id="set-user"></b></p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div>考试时间与流程来源于 <b>教育部教育考试院</b> 官方公告；真题话题整理自公开网络资料。</div>
+    <div class="sources" id="sources"></div>
+    <div class="foot-note">本站为学习练习工具，非官方平台 · 本地运行 · 不收集任何个人信息</div>
+  </footer>
+
+  <!-- 底部导航（手机） -->
+  <nav class="tabbar">
+    <button class="tab-btn on" data-view="view-home"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/></svg><span>首页</span></button>
+    <button class="tab-btn" data-view="view-interview"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1a7 7 0 0 0 6-6.9h-2z"/></svg><span>面试</span></button>
+    <button class="tab-btn" data-view="view-listening"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 3a5 5 0 0 0-5 5v5a5 5 0 0 0 10 0V8a5 5 0 0 0-5-5zm7 8h-2v2a5 5 0 0 1-10 0v-2H5v2a7 7 0 0 0 6 6.9V21h2v-3.1a7 7 0 0 0 6-6.9v-2z"/></svg><span>听力</span></button>
+    <button class="tab-btn" data-view="view-history"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M13 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-7-7v5l6-4-6-4v1z" transform="scale(0.85) translate(2,2)"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>记录</span></button>
+    <button class="tab-btn" data-view="view-settings"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M19.4 13a7.8 7.8 0 0 0 .1-1 7.8 7.8 0 0 0-.1-1l2.1-1.6a.5.5 0 0 0 .1-.6l-2-3.5a.5.5 0 0 0-.6-.2l-2.5 1a7.6 7.6 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.4 2.6a7.6 7.6 0 0 0-1.7 1l-2.5-1a.5.5 0 0 0-.6.2l-2 3.5a.5.5 0 0 0 .1.6L4.5 11a7.8 7.8 0 0 0 0 2l-2.1 1.6a.5.5 0 0 0-.1.6l2 3.5c.1.2.4.3.6.2l2.5-1a7.6 7.6 0 0 0 1.7 1l.4 2.6a.5.5 0 0 0 .5.4h4a.5.5 0 0 0 .5-.4l.4-2.6a7.6 7.6 0 0 0 1.7-1l2.5 1c.2.1.5 0 .6-.2l2-3.5a.5.5 0 0 0-.1-.6L19.4 13zM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5z"/></svg><span>设置</span></button>
+  </nav>
+</div>
+
+<!-- 成绩单弹窗 -->
+<div class="modal" id="result-modal"></div>
+
+<div id="toast" class="toast"></div>
+
+<script src="js/config.js"></script>
+<script src="js/data.js?v=20261022c4"></script>
+<script src="js/voice.js?v=20261022c4"></script>
+<script src="js/interview.js?v=20261022c4"></script>
+<script src="js/listening.js?v=20261022c4"></script>
+<script src="js/app.js?v=20261022c4"></script>
+</body>
+</html>
